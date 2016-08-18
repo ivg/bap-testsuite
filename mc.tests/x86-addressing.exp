@@ -1,36 +1,43 @@
 
-set suite {
-    {x86-64} {movabsq %rax, 0x4} {*\[0xA:64 + 0x4:64, el\]*}
-    {x86-64} {movl %eax, (%ebp)} {*\[pad:64\[low:32\[RBP\]\], el\]*}
-    {x86-64} {movq %rax, (%rbp)} {*\[RBP, el\]*}
-    {x86-64} {movq %rax, (%rbp,%rdx)} {*\[RBP + RDX, el\]*}
-    {x86-64} {movq %rax, (%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
-    {x86-64} {movq %rax, (%rbp,%rdx,4)} {*\[RBP + (RDX << 0x2:2), el\]*}
-    {x86-64} {movq %rax, (%rbp,%rdx,8)} {*\[RBP + (RDX << 0x3:2), el\]*}
-    {x86-64} {movq %rax, 0x4(%rbp)} {*\[RBP + 0x4:64, el\]*}
-    {x86-64} {movq %rax, 0x4(%rbp,%rdx)} {*\[(RBP + RDX) + 0x4:64, el\]*}
-    {x86-64} {movq %rax, 0x4(%rbp,%rdx,2)} {*\[(RBP + (RDX << 0x1:2)) + 0x4:64, el\]*}
-    {x86-64} {movq %rax, 0x4(%rbp,%rdx,4)} {*\[(RBP + (RDX << 0x2:2)) + 0x4:64, el\]*}
-    {x86-64} {movq %rax, 0x4(%rbp,%rdx,8)} {*\[(RBP + (RDX << 0x3:2)) + 0x4:64, el\]*}
-    {x86-64} {movq %rdi, (,%rax)} {*\[RAX, el\]*}
-    {x86-64} {movq %rdi, (,%rax,2)} {*\[RAX << 0x1:2, el\]*}
-    {x86-64} {movq %rdi, (,%rax,4)} {*\[RAX << 0x2:2, el\]*}
-    {x86-64} {movq %rdi, (,%rax,8)} {*\[RAX << 0x3:2, el\]*}
-    {x86-64} {movq %rdi, 0x4(,%rax)} {*\[RAX + 0x4:64, el\]*}
-    {x86-64} {movq %rdi, 0x4(,%rax,2)} {*\[(RAX << 0x1:2) + 0x4:64, el\]*}
-    {x86-64} {movq %rdi, 0x4(,%rax,4)} {*\[(RAX << 0x2:2) + 0x4:64, el\]*}
-    {x86-64} {movq %rdi, 0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
-    {x86-64} {movq %rdi, (%rip)} {*\[0x7:64, el\]*}
-    {x86-64} {movq %rdi, 0x4(%rip)} {*\[0x7:64 + 0x4:64, el\]*}
+set suite_amd64 {
+    {movabsq %rax, 0x4} {*\[0xA:64 + 0x4:64, el\]*}
+    {movl %eax, (%ebp)} {*\[pad:64\[low:32\[RBP\]\], el\]*}
+    {movq %rax, (%rbp)} {*\[RBP, el\]*}
+    {movq %rax, (%rbp,%rdx)} {*\[RBP + RDX, el\]*}
+    {movq %rax, (%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
+    {movq %rax, (%rbp,%rdx,4)} {*\[RBP + (RDX << 0x2:2), el\]*}
+    {movq %rax, (%rbp,%rdx,8)} {*\[RBP + (RDX << 0x3:2), el\]*}
+    {movq %rax, 0x4(%rbp)} {*\[RBP + 0x4:64, el\]*}
+    {movq %rax, 0x4(%rbp,%rdx)} {*\[(RBP + RDX) + 0x4:64, el\]*}
+    {movq %rax, 0x4(%rbp,%rdx,2)} {*\[(RBP + (RDX << 0x1:2)) + 0x4:64, el\]*}
+    {movq %rax, 0x4(%rbp,%rdx,4)} {*\[(RBP + (RDX << 0x2:2)) + 0x4:64, el\]*}
+    {movq %rax, 0x4(%rbp,%rdx,8)} {*\[(RBP + (RDX << 0x3:2)) + 0x4:64, el\]*}
+    {movq %rdi, (,%rax)} {*\[RAX, el\]*}
+    {movq %rdi, (,%rax,2)} {*\[RAX << 0x1:2, el\]*}
+    {movq %rdi, (,%rax,4)} {*\[RAX << 0x2:2, el\]*}
+    {movq %rdi, (,%rax,8)} {*\[RAX << 0x3:2, el\]*}
+    {movq %rdi, 0x4(,%rax)} {*\[RAX + 0x4:64, el\]*}
+    {movq %rdi, 0x4(,%rax,2)} {*\[(RAX << 0x1:2) + 0x4:64, el\]*}
+    {movq %rdi, 0x4(,%rax,4)} {*\[(RAX << 0x2:2) + 0x4:64, el\]*}
+    {movq %rdi, 0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
+    {movq %rdi, (%rip)} {*\[0x7:64, el\]*}
+    {movq %rdi, 0x4(%rip)} {*\[0x7:64 + 0x4:64, el\]*}
 }
 
-foreach {arch asm bil} $suite {
-    set test "x86.addressing.$arch.\[$asm\]"
-    set command "echo '$asm' | llvm-mc -arch=$arch --show-encoding | awk -vFS=\"\[\" -vRS=\"\]\" '\{print \$2\}' | bap-mc --arch=$arch --show-insn=asm --show-bil=pretty"
-    spawn sh -c $command
-    expect {
-        $asm exp_continue
-        $bil { pass $test }
-        default {fail $test}
+proc run {arch suite} {
+    set encode "llvm-mc -arch=$arch --show-encoding"
+    set extract  "awk -vFS=\"\[\" -vRS=\"\]\" '\{print \$2\}'"
+    set mc "bap-mc --arch=$arch --show-insn=asm --show-bil=pretty"
+    foreach {asm bil} $suite {
+        set test "x86.addressing.$arch.\[$asm\]"
+        set command "echo '$asm' | $encode | $extract | $mc"
+        spawn sh -c $command
+        expect {
+            $asm exp_continue
+            $bil { pass $test }
+            default {fail $test}
+        }
     }
 }
+
+run x86-64 $suite_amd64
