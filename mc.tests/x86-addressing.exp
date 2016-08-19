@@ -1,7 +1,6 @@
 
 set suite_amd64 {
     {movabsq %rax, 0x4} {*\[0xA:64 + 0x4:64, el\]*}
-    {movl %eax, (%ebp)} {*\[pad:64\[low:32\[RBP\]\], el\]*}
     {movq %rax, (%rbp)} {*\[RBP, el\]*}
     {movq %rax, (%rbp,%rdx)} {*\[RBP + RDX, el\]*}
     {movq %rax, (%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
@@ -150,12 +149,148 @@ set suite_amd64 {
     {movq %rdi, %ss:0x4(%rip)} {*\[0x8:64 + 0x4:64, el\]*}
 }
 
+set suite_ia32 {
+    {movl %eax, 0x4} {*\[0x5:32 + 0x4:32, el\]*}
+    {movl %eax, (%ebp)} {*\[EBP, el\]*}
+    {movl %eax, (%ebp,%edx)} {*\[EBP + EDX, el\]*}
+    {movl %eax, (%ebp,%edx,2)} {*\[EBP + (EDX << 0x1:2), el\]*}
+    {movl %eax, (%ebp,%edx,4)} {*\[EBP + (EDX << 0x2:2), el\]*}
+    {movl %eax, (%ebp,%edx,8)} {*\[EBP + (EDX << 0x3:2), el\]*}
+    {movl %eax, 0x4(%ebp)} {*\[EBP + 0x4:32, el\]*}
+    {movl %eax, 0x4(%ebp,%edx)} {*\[(EBP + EDX) + 0x4:32, el\]*}
+    {movl %eax, 0x4(%ebp,%edx,2)} {*\[(EBP + (EDX << 0x1:2)) + 0x4:32, el\]*}
+    {movl %eax, 0x4(%ebp,%edx,4)} {*\[(EBP + (EDX << 0x2:2)) + 0x4:32, el\]*}
+    {movl %eax, 0x4(%ebp,%edx,8)} {*\[(EBP + (EDX << 0x3:2)) + 0x4:32, el\]*}
+    {movl %edi, (,%eax)} {*\[EAX, el\]*}
+    {movl %edi, (,%eax,2)} {*\[EAX << 0x1:2, el\]*}
+    {movl %edi, (,%eax,4)} {*\[EAX << 0x2:2, el\]*}
+    {movl %edi, (,%eax,8)} {*\[EAX << 0x3:2, el\]*}
+    {movl %edi, 0x4(,%eax)} {*\[EAX + 0x4:32, el\]*}
+    {movl %edi, 0x4(,%eax,2)} {*\[(EAX << 0x1:2) + 0x4:32, el\]*}
+    {movl %edi, 0x4(,%eax,4)} {*\[(EAX << 0x2:2) + 0x4:32, el\]*}
+    {movl %edi, 0x4(,%eax,8)} {*\[(EAX << 0x3:2) + 0x4:32, el\]*}
+
+    {movl %eax, %fs:(%ebp)} {*\[FS_BASE + EBP, el\]*}
+    {movl %eax, %fs:(%ebp,%edx)} {*\[FS_BASE + (EBP + EDX), el\]*}
+    {movl %eax, %fs:(%ebp,%edx,2)} {*\[FS_BASE + (EBP + (EDX << 0x1:2)), el\]*}
+    {movl %eax, %fs:(%ebp,%edx,4)} {*\[FS_BASE + (EBP + (EDX << 0x2:2)), el\]*}
+    {movl %eax, %fs:(%ebp,%edx,8)} {*\[FS_BASE + (EBP + (EDX << 0x3:2)), el\]*}
+    {movl %eax, %fs:0x4(%ebp)} {*\[FS_BASE + (EBP + 0x4:32), el\]*}
+    {movl %eax, %fs:0x4(%ebp,%edx)} {*\[FS_BASE + ((EBP + EDX) + 0x4:32), el\]*}
+    {movl %eax, %fs:0x4(%ebp,%edx,2)} {*\[FS_BASE + ((EBP + (EDX << 0x1:2)) + 0x4:32), el\]*}
+    {movl %eax, %fs:0x4(%ebp,%edx,4)} {*\[FS_BASE + ((EBP + (EDX << 0x2:2)) + 0x4:32), el\]*}
+    {movl %eax, %fs:0x4(%ebp,%edx,8)} {*\[FS_BASE + ((EBP + (EDX << 0x3:2)) + 0x4:32), el\]*}
+    {movl %edi, %fs:(,%eax)} {*\[FS_BASE + EAX, el\]*}
+    {movl %edi, %fs:(,%eax,2)} {*\[FS_BASE + (EAX << 0x1:2), el\]*}
+    {movl %edi, %fs:(,%eax,4)} {*\[FS_BASE + (EAX << 0x2:2), el\]*}
+    {movl %edi, %fs:(,%eax,8)} {*\[FS_BASE + (EAX << 0x3:2), el\]*}
+    {movl %edi, %fs:0x4(,%eax)} {*\[FS_BASE + (EAX + 0x4:32), el\]*}
+    {movl %edi, %fs:0x4(,%eax,2)} {*\[FS_BASE + ((EAX << 0x1:2) + 0x4:32), el\]*}
+    {movl %edi, %fs:0x4(,%eax,4)} {*\[FS_BASE + ((EAX << 0x2:2) + 0x4:32), el\]*}
+    {movl %edi, %fs:0x4(,%eax,8)} {*\[FS_BASE + ((EAX << 0x3:2) + 0x4:32), el\]*}
+
+    {movl %eax, %gs:(%ebp)} {*\[GS_BASE + EBP, el\]*}
+    {movl %eax, %gs:(%ebp,%edx)} {*\[GS_BASE + (EBP + EDX), el\]*}
+    {movl %eax, %gs:(%ebp,%edx,2)} {*\[GS_BASE + (EBP + (EDX << 0x1:2)), el\]*}
+    {movl %eax, %gs:(%ebp,%edx,4)} {*\[GS_BASE + (EBP + (EDX << 0x2:2)), el\]*}
+    {movl %eax, %gs:(%ebp,%edx,8)} {*\[GS_BASE + (EBP + (EDX << 0x3:2)), el\]*}
+    {movl %eax, %gs:0x4(%ebp)} {*\[GS_BASE + (EBP + 0x4:32), el\]*}
+    {movl %eax, %gs:0x4(%ebp,%edx)} {*\[GS_BASE + ((EBP + EDX) + 0x4:32), el\]*}
+    {movl %eax, %gs:0x4(%ebp,%edx,2)} {*\[GS_BASE + ((EBP + (EDX << 0x1:2)) + 0x4:32), el\]*}
+    {movl %eax, %gs:0x4(%ebp,%edx,4)} {*\[GS_BASE + ((EBP + (EDX << 0x2:2)) + 0x4:32), el\]*}
+    {movl %eax, %gs:0x4(%ebp,%edx,8)} {*\[GS_BASE + ((EBP + (EDX << 0x3:2)) + 0x4:32), el\]*}
+    {movl %edi, %gs:(,%eax)} {*\[GS_BASE + EAX, el\]*}
+    {movl %edi, %gs:(,%eax,2)} {*\[GS_BASE + (EAX << 0x1:2), el\]*}
+    {movl %edi, %gs:(,%eax,4)} {*\[GS_BASE + (EAX << 0x2:2), el\]*}
+    {movl %edi, %gs:(,%eax,8)} {*\[GS_BASE + (EAX << 0x3:2), el\]*}
+    {movl %edi, %gs:0x4(,%eax)} {*\[GS_BASE + (EAX + 0x4:32), el\]*}
+    {movl %edi, %gs:0x4(,%eax,2)} {*\[GS_BASE + ((EAX << 0x1:2) + 0x4:32), el\]*}
+    {movl %edi, %gs:0x4(,%eax,4)} {*\[GS_BASE + ((EAX << 0x2:2) + 0x4:32), el\]*}
+    {movl %edi, %gs:0x4(,%eax,8)} {*\[GS_BASE + ((EAX << 0x3:2) + 0x4:32), el\]*}
+
+    {movl %eax, %cs:(%ebp)} {*\[EBP, el\]*}
+    {movl %eax, %cs:(%ebp,%edx)} {*\[EBP + EDX, el\]*}
+    {movl %eax, %cs:(%ebp,%edx,2)} {*\[EBP + (EDX << 0x1:2), el\]*}
+    {movl %eax, %cs:(%ebp,%edx,4)} {*\[EBP + (EDX << 0x2:2), el\]*}
+    {movl %eax, %cs:(%ebp,%edx,8)} {*\[EBP + (EDX << 0x3:2), el\]*}
+    {movl %eax, %cs:0x4(%ebp)} {*\[EBP + 0x4:32, el\]*}
+    {movl %eax, %cs:0x4(%ebp,%edx)} {*\[(EBP + EDX) + 0x4:32, el\]*}
+    {movl %eax, %cs:0x4(%ebp,%edx,2)} {*\[(EBP + (EDX << 0x1:2)) + 0x4:32, el\]*}
+    {movl %eax, %cs:0x4(%ebp,%edx,4)} {*\[(EBP + (EDX << 0x2:2)) + 0x4:32, el\]*}
+    {movl %eax, %cs:0x4(%ebp,%edx,8)} {*\[(EBP + (EDX << 0x3:2)) + 0x4:32, el\]*}
+    {movl %edi, %cs:(,%eax)} {*\[EAX, el\]*}
+    {movl %edi, %cs:(,%eax,2)} {*\[EAX << 0x1:2, el\]*}
+    {movl %edi, %cs:(,%eax,4)} {*\[EAX << 0x2:2, el\]*}
+    {movl %edi, %cs:(,%eax,8)} {*\[EAX << 0x3:2, el\]*}
+    {movl %edi, %cs:0x4(,%eax)} {*\[EAX + 0x4:32, el\]*}
+    {movl %edi, %cs:0x4(,%eax,2)} {*\[(EAX << 0x1:2) + 0x4:32, el\]*}
+    {movl %edi, %cs:0x4(,%eax,4)} {*\[(EAX << 0x2:2) + 0x4:32, el\]*}
+    {movl %edi, %cs:0x4(,%eax,8)} {*\[(EAX << 0x3:2) + 0x4:32, el\]*}
+
+    {movl %eax, %ds:(%ebp)} {*\[EBP, el\]*}
+    {movl %eax, %ds:(%ebp,%edx)} {*\[EBP + EDX, el\]*}
+    {movl %eax, %ds:(%ebp,%edx,2)} {*\[EBP + (EDX << 0x1:2), el\]*}
+    {movl %eax, %ds:(%ebp,%edx,4)} {*\[EBP + (EDX << 0x2:2), el\]*}
+    {movl %eax, %ds:(%ebp,%edx,8)} {*\[EBP + (EDX << 0x3:2), el\]*}
+    {movl %eax, %ds:0x4(%ebp)} {*\[EBP + 0x4:32, el\]*}
+    {movl %eax, %ds:0x4(%ebp,%edx)} {*\[(EBP + EDX) + 0x4:32, el\]*}
+    {movl %eax, %ds:0x4(%ebp,%edx,2)} {*\[(EBP + (EDX << 0x1:2)) + 0x4:32, el\]*}
+    {movl %eax, %ds:0x4(%ebp,%edx,4)} {*\[(EBP + (EDX << 0x2:2)) + 0x4:32, el\]*}
+    {movl %eax, %ds:0x4(%ebp,%edx,8)} {*\[(EBP + (EDX << 0x3:2)) + 0x4:32, el\]*}
+    {movl %edi, %ds:(,%eax)} {*\[EAX, el\]*}
+    {movl %edi, %ds:(,%eax,2)} {*\[EAX << 0x1:2, el\]*}
+    {movl %edi, %ds:(,%eax,4)} {*\[EAX << 0x2:2, el\]*}
+    {movl %edi, %ds:(,%eax,8)} {*\[EAX << 0x3:2, el\]*}
+    {movl %edi, %ds:0x4(,%eax)} {*\[EAX + 0x4:32, el\]*}
+    {movl %edi, %ds:0x4(,%eax,2)} {*\[(EAX << 0x1:2) + 0x4:32, el\]*}
+    {movl %edi, %ds:0x4(,%eax,4)} {*\[(EAX << 0x2:2) + 0x4:32, el\]*}
+    {movl %edi, %ds:0x4(,%eax,8)} {*\[(EAX << 0x3:2) + 0x4:32, el\]*}
+
+    {movl %eax, %es:(%ebp)} {*\[EBP, el\]*}
+    {movl %eax, %es:(%ebp,%edx)} {*\[EBP + EDX, el\]*}
+    {movl %eax, %es:(%ebp,%edx,2)} {*\[EBP + (EDX << 0x1:2), el\]*}
+    {movl %eax, %es:(%ebp,%edx,4)} {*\[EBP + (EDX << 0x2:2), el\]*}
+    {movl %eax, %es:(%ebp,%edx,8)} {*\[EBP + (EDX << 0x3:2), el\]*}
+    {movl %eax, %es:0x4(%ebp)} {*\[EBP + 0x4:32, el\]*}
+    {movl %eax, %es:0x4(%ebp,%edx)} {*\[(EBP + EDX) + 0x4:32, el\]*}
+    {movl %eax, %es:0x4(%ebp,%edx,2)} {*\[(EBP + (EDX << 0x1:2)) + 0x4:32, el\]*}
+    {movl %eax, %es:0x4(%ebp,%edx,4)} {*\[(EBP + (EDX << 0x2:2)) + 0x4:32, el\]*}
+    {movl %eax, %es:0x4(%ebp,%edx,8)} {*\[(EBP + (EDX << 0x3:2)) + 0x4:32, el\]*}
+    {movl %edi, %es:(,%eax)} {*\[EAX, el\]*}
+    {movl %edi, %es:(,%eax,2)} {*\[EAX << 0x1:2, el\]*}
+    {movl %edi, %es:(,%eax,4)} {*\[EAX << 0x2:2, el\]*}
+    {movl %edi, %es:(,%eax,8)} {*\[EAX << 0x3:2, el\]*}
+    {movl %edi, %es:0x4(,%eax)} {*\[EAX + 0x4:32, el\]*}
+    {movl %edi, %es:0x4(,%eax,2)} {*\[(EAX << 0x1:2) + 0x4:32, el\]*}
+    {movl %edi, %es:0x4(,%eax,4)} {*\[(EAX << 0x2:2) + 0x4:32, el\]*}
+    {movl %edi, %es:0x4(,%eax,8)} {*\[(EAX << 0x3:2) + 0x4:32, el\]*}
+
+    {movl %eax, %ss:(%ebp)} {*\[EBP, el\]*}
+    {movl %eax, %ss:(%ebp,%edx)} {*\[EBP + EDX, el\]*}
+    {movl %eax, %ss:(%ebp,%edx,2)} {*\[EBP + (EDX << 0x1:2), el\]*}
+    {movl %eax, %ss:(%ebp,%edx,4)} {*\[EBP + (EDX << 0x2:2), el\]*}
+    {movl %eax, %ss:(%ebp,%edx,8)} {*\[EBP + (EDX << 0x3:2), el\]*}
+    {movl %eax, %ss:0x4(%ebp)} {*\[EBP + 0x4:32, el\]*}
+    {movl %eax, %ss:0x4(%ebp,%edx)} {*\[(EBP + EDX) + 0x4:32, el\]*}
+    {movl %eax, %ss:0x4(%ebp,%edx,2)} {*\[(EBP + (EDX << 0x1:2)) + 0x4:32, el\]*}
+    {movl %eax, %ss:0x4(%ebp,%edx,4)} {*\[(EBP + (EDX << 0x2:2)) + 0x4:32, el\]*}
+    {movl %eax, %ss:0x4(%ebp,%edx,8)} {*\[(EBP + (EDX << 0x3:2)) + 0x4:32, el\]*}
+    {movl %edi, %ss:(,%eax)} {*\[EAX, el\]*}
+    {movl %edi, %ss:(,%eax,2)} {*\[EAX << 0x1:2, el\]*}
+    {movl %edi, %ss:(,%eax,4)} {*\[EAX << 0x2:2, el\]*}
+    {movl %edi, %ss:(,%eax,8)} {*\[EAX << 0x3:2, el\]*}
+    {movl %edi, %ss:0x4(,%eax)} {*\[EAX + 0x4:32, el\]*}
+    {movl %edi, %ss:0x4(,%eax,2)} {*\[(EAX << 0x1:2) + 0x4:32, el\]*}
+    {movl %edi, %ss:0x4(,%eax,4)} {*\[(EAX << 0x2:2) + 0x4:32, el\]*}
+    {movl %edi, %ss:0x4(,%eax,8)} {*\[(EAX << 0x3:2) + 0x4:32, el\]*}
+}
+
 proc run {arch suite} {
     set encode "llvm-mc -arch=$arch --show-encoding"
     set extract  "awk -vFS=\"\[\" -vRS=\"\]\" '\{print \$2\}'"
     set mc "bap-mc --arch=$arch --show-insn=asm --x86-lifter=modern --show-bil=pretty"
     foreach {asm bil} $suite {
-        set test "x86.addressing.$arch.\[$asm\]"
+        set test "$arch.addressing.\[$asm\]"
         set command "echo '$asm' | $encode | $extract | $mc"
         spawn sh -c $command
         expect {
@@ -169,4 +304,6 @@ proc run {arch suite} {
     }
 }
 
+run x86 $suite_ia32
 run x86-64 $suite_amd64
+
