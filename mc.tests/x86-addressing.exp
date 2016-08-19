@@ -22,12 +22,138 @@ set suite_amd64 {
     {movq %rdi, 0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
     {movq %rdi, (%rip)} {*\[0x7:64, el\]*}
     {movq %rdi, 0x4(%rip)} {*\[0x7:64 + 0x4:64, el\]*}
+
+    {movq %rax, %fs:(%rbp)} {*\[FS_BASE + RBP, el\]*}
+    {movq %rax, %fs:(%rbp,%rdx)} {*\[FS_BASE + (RBP + RDX), el\]*}
+    {movq %rax, %fs:(%rbp,%rdx,2)} {*\[FS_BASE + (RBP + (RDX << 0x1:2)), el\]*}
+    {movq %rax, %fs:(%rbp,%rdx,4)} {*\[FS_BASE + (RBP + (RDX << 0x2:2)), el\]*}
+    {movq %rax, %fs:(%rbp,%rdx,8)} {*\[FS_BASE + (RBP + (RDX << 0x3:2)), el\]*}
+    {movq %rax, %fs:0x4(%rbp)} {*\[FS_BASE + (RBP + 0x4:64), el\]*}
+    {movq %rax, %fs:0x4(%rbp,%rdx)} {*\[FS_BASE + ((RBP + RDX) + 0x4:64), el\]*}
+    {movq %rax, %fs:0x4(%rbp,%rdx,2)} {*\[FS_BASE + ((RBP + (RDX << 0x1:2)) + 0x4:64), el\]*}
+    {movq %rax, %fs:0x4(%rbp,%rdx,4)} {*\[FS_BASE + ((RBP + (RDX << 0x2:2)) + 0x4:64), el\]*}
+    {movq %rax, %fs:0x4(%rbp,%rdx,8)} {*\[FS_BASE + ((RBP + (RDX << 0x3:2)) + 0x4:64), el\]*}
+    {movq %rdi, %fs:(,%rax)} {*\[FS_BASE + RAX, el\]*}
+    {movq %rdi, %fs:(,%rax,2)} {*\[FS_BASE + (RAX << 0x1:2), el\]*}
+    {movq %rdi, %fs:(,%rax,4)} {*\[FS_BASE + (RAX << 0x2:2), el\]*}
+    {movq %rdi, %fs:(,%rax,8)} {*\[FS_BASE + (RAX << 0x3:2), el\]*}
+    {movq %rdi, %fs:0x4(,%rax)} {*\[FS_BASE + (RAX + 0x4:64), el\]*}
+    {movq %rdi, %fs:0x4(,%rax,2)} {*\[FS_BASE + ((RAX << 0x1:2) + 0x4:64), el\]*}
+    {movq %rdi, %fs:0x4(,%rax,4)} {*\[FS_BASE + ((RAX << 0x2:2) + 0x4:64), el\]*}
+    {movq %rdi, %fs:0x4(,%rax,8)} {*\[FS_BASE + ((RAX << 0x3:2) + 0x4:64), el\]*}
+    {movq %rdi, %fs:(%rip)} {*\[FS_BASE + 0x8:64, el\]*}
+    {movq %rdi, %fs:0x4(%rip)} {*\[FS_BASE + (0x8:64 + 0x4:64), el\]*}
+
+    {movq %rax, %gs:(%rbp)} {*\[GS_BASE + RBP, el\]*}
+    {movq %rax, %gs:(%rbp,%rdx)} {*\[GS_BASE + (RBP + RDX), el\]*}
+    {movq %rax, %gs:(%rbp,%rdx,2)} {*\[GS_BASE + (RBP + (RDX << 0x1:2)), el\]*}
+    {movq %rax, %gs:(%rbp,%rdx,4)} {*\[GS_BASE + (RBP + (RDX << 0x2:2)), el\]*}
+    {movq %rax, %gs:(%rbp,%rdx,8)} {*\[GS_BASE + (RBP + (RDX << 0x3:2)), el\]*}
+    {movq %rax, %gs:0x4(%rbp)} {*\[GS_BASE + (RBP + 0x4:64), el\]*}
+    {movq %rax, %gs:0x4(%rbp,%rdx)} {*\[GS_BASE + ((RBP + RDX) + 0x4:64), el\]*}
+    {movq %rax, %gs:0x4(%rbp,%rdx,2)} {*\[GS_BASE + ((RBP + (RDX << 0x1:2)) + 0x4:64), el\]*}
+    {movq %rax, %gs:0x4(%rbp,%rdx,4)} {*\[GS_BASE + ((RBP + (RDX << 0x2:2)) + 0x4:64), el\]*}
+    {movq %rax, %gs:0x4(%rbp,%rdx,8)} {*\[GS_BASE + ((RBP + (RDX << 0x3:2)) + 0x4:64), el\]*}
+    {movq %rdi, %gs:(,%rax)} {*\[GS_BASE + RAX, el\]*}
+    {movq %rdi, %gs:(,%rax,2)} {*\[GS_BASE + (RAX << 0x1:2), el\]*}
+    {movq %rdi, %gs:(,%rax,4)} {*\[GS_BASE + (RAX << 0x2:2), el\]*}
+    {movq %rdi, %gs:(,%rax,8)} {*\[GS_BASE + (RAX << 0x3:2), el\]*}
+    {movq %rdi, %gs:0x4(,%rax)} {*\[GS_BASE + (RAX + 0x4:64), el\]*}
+    {movq %rdi, %gs:0x4(,%rax,2)} {*\[GS_BASE + ((RAX << 0x1:2) + 0x4:64), el\]*}
+    {movq %rdi, %gs:0x4(,%rax,4)} {*\[GS_BASE + ((RAX << 0x2:2) + 0x4:64), el\]*}
+    {movq %rdi, %gs:0x4(,%rax,8)} {*\[GS_BASE + ((RAX << 0x3:2) + 0x4:64), el\]*}
+    {movq %rdi, %gs:(%rip)} {*\[GS_BASE + 0x8:64, el\]*}
+    {movq %rdi, %gs:0x4(%rip)} {*\[GS_BASE + (0x8:64 + 0x4:64), el\]*}
+
+    {movq %rax, %cs:(%rbp)} {*\[RBP, el\]*}
+    {movq %rax, %cs:(%rbp,%rdx)} {*\[RBP + RDX, el\]*}
+    {movq %rax, %cs:(%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
+    {movq %rax, %cs:(%rbp,%rdx,4)} {*\[RBP + (RDX << 0x2:2), el\]*}
+    {movq %rax, %cs:(%rbp,%rdx,8)} {*\[RBP + (RDX << 0x3:2), el\]*}
+    {movq %rax, %cs:0x4(%rbp)} {*\[RBP + 0x4:64, el\]*}
+    {movq %rax, %cs:0x4(%rbp,%rdx)} {*\[(RBP + RDX) + 0x4:64, el\]*}
+    {movq %rax, %cs:0x4(%rbp,%rdx,2)} {*\[(RBP + (RDX << 0x1:2)) + 0x4:64, el\]*}
+    {movq %rax, %cs:0x4(%rbp,%rdx,4)} {*\[(RBP + (RDX << 0x2:2)) + 0x4:64, el\]*}
+    {movq %rax, %cs:0x4(%rbp,%rdx,8)} {*\[(RBP + (RDX << 0x3:2)) + 0x4:64, el\]*}
+    {movq %rdi, %cs:(,%rax)} {*\[RAX, el\]*}
+    {movq %rdi, %cs:(,%rax,2)} {*\[RAX << 0x1:2, el\]*}
+    {movq %rdi, %cs:(,%rax,4)} {*\[RAX << 0x2:2, el\]*}
+    {movq %rdi, %cs:(,%rax,8)} {*\[RAX << 0x3:2, el\]*}
+    {movq %rdi, %cs:0x4(,%rax)} {*\[RAX + 0x4:64, el\]*}
+    {movq %rdi, %cs:0x4(,%rax,2)} {*\[(RAX << 0x1:2) + 0x4:64, el\]*}
+    {movq %rdi, %cs:0x4(,%rax,4)} {*\[(RAX << 0x2:2) + 0x4:64, el\]*}
+    {movq %rdi, %cs:0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
+    {movq %rdi, %cs:(%rip)} {*\[0x8:64, el\]*}
+    {movq %rdi, %cs:0x4(%rip)} {*\[0x8:64 + 0x4:64, el\]*}
+
+    {movq %rax, %ds:(%rbp)} {*\[RBP, el\]*}
+    {movq %rax, %ds:(%rbp,%rdx)} {*\[RBP + RDX, el\]*}
+    {movq %rax, %ds:(%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
+    {movq %rax, %ds:(%rbp,%rdx,4)} {*\[RBP + (RDX << 0x2:2), el\]*}
+    {movq %rax, %ds:(%rbp,%rdx,8)} {*\[RBP + (RDX << 0x3:2), el\]*}
+    {movq %rax, %ds:0x4(%rbp)} {*\[RBP + 0x4:64, el\]*}
+    {movq %rax, %ds:0x4(%rbp,%rdx)} {*\[(RBP + RDX) + 0x4:64, el\]*}
+    {movq %rax, %ds:0x4(%rbp,%rdx,2)} {*\[(RBP + (RDX << 0x1:2)) + 0x4:64, el\]*}
+    {movq %rax, %ds:0x4(%rbp,%rdx,4)} {*\[(RBP + (RDX << 0x2:2)) + 0x4:64, el\]*}
+    {movq %rax, %ds:0x4(%rbp,%rdx,8)} {*\[(RBP + (RDX << 0x3:2)) + 0x4:64, el\]*}
+    {movq %rdi, %ds:(,%rax)} {*\[RAX, el\]*}
+    {movq %rdi, %ds:(,%rax,2)} {*\[RAX << 0x1:2, el\]*}
+    {movq %rdi, %ds:(,%rax,4)} {*\[RAX << 0x2:2, el\]*}
+    {movq %rdi, %ds:(,%rax,8)} {*\[RAX << 0x3:2, el\]*}
+    {movq %rdi, %ds:0x4(,%rax)} {*\[RAX + 0x4:64, el\]*}
+    {movq %rdi, %ds:0x4(,%rax,2)} {*\[(RAX << 0x1:2) + 0x4:64, el\]*}
+    {movq %rdi, %ds:0x4(,%rax,4)} {*\[(RAX << 0x2:2) + 0x4:64, el\]*}
+    {movq %rdi, %ds:0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
+    {movq %rdi, %ds:(%rip)} {*\[0x8:64, el\]*}
+    {movq %rdi, %ds:0x4(%rip)} {*\[0x8:64 + 0x4:64, el\]*}
+
+    {movq %rax, %es:(%rbp)} {*\[RBP, el\]*}
+    {movq %rax, %es:(%rbp,%rdx)} {*\[RBP + RDX, el\]*}
+    {movq %rax, %es:(%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
+    {movq %rax, %es:(%rbp,%rdx,4)} {*\[RBP + (RDX << 0x2:2), el\]*}
+    {movq %rax, %es:(%rbp,%rdx,8)} {*\[RBP + (RDX << 0x3:2), el\]*}
+    {movq %rax, %es:0x4(%rbp)} {*\[RBP + 0x4:64, el\]*}
+    {movq %rax, %es:0x4(%rbp,%rdx)} {*\[(RBP + RDX) + 0x4:64, el\]*}
+    {movq %rax, %es:0x4(%rbp,%rdx,2)} {*\[(RBP + (RDX << 0x1:2)) + 0x4:64, el\]*}
+    {movq %rax, %es:0x4(%rbp,%rdx,4)} {*\[(RBP + (RDX << 0x2:2)) + 0x4:64, el\]*}
+    {movq %rax, %es:0x4(%rbp,%rdx,8)} {*\[(RBP + (RDX << 0x3:2)) + 0x4:64, el\]*}
+    {movq %rdi, %es:(,%rax)} {*\[RAX, el\]*}
+    {movq %rdi, %es:(,%rax,2)} {*\[RAX << 0x1:2, el\]*}
+    {movq %rdi, %es:(,%rax,4)} {*\[RAX << 0x2:2, el\]*}
+    {movq %rdi, %es:(,%rax,8)} {*\[RAX << 0x3:2, el\]*}
+    {movq %rdi, %es:0x4(,%rax)} {*\[RAX + 0x4:64, el\]*}
+    {movq %rdi, %es:0x4(,%rax,2)} {*\[(RAX << 0x1:2) + 0x4:64, el\]*}
+    {movq %rdi, %es:0x4(,%rax,4)} {*\[(RAX << 0x2:2) + 0x4:64, el\]*}
+    {movq %rdi, %es:0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
+    {movq %rdi, %es:(%rip)} {*\[0x8:64, el\]*}
+    {movq %rdi, %es:0x4(%rip)} {*\[0x8:64 + 0x4:64, el\]*}
+
+    {movq %rax, %ss:(%rbp)} {*\[RBP, el\]*}
+    {movq %rax, %ss:(%rbp,%rdx)} {*\[RBP + RDX, el\]*}
+    {movq %rax, %ss:(%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
+    {movq %rax, %ss:(%rbp,%rdx,4)} {*\[RBP + (RDX << 0x2:2), el\]*}
+    {movq %rax, %ss:(%rbp,%rdx,8)} {*\[RBP + (RDX << 0x3:2), el\]*}
+    {movq %rax, %ss:0x4(%rbp)} {*\[RBP + 0x4:64, el\]*}
+    {movq %rax, %ss:0x4(%rbp,%rdx)} {*\[(RBP + RDX) + 0x4:64, el\]*}
+    {movq %rax, %ss:0x4(%rbp,%rdx,2)} {*\[(RBP + (RDX << 0x1:2)) + 0x4:64, el\]*}
+    {movq %rax, %ss:0x4(%rbp,%rdx,4)} {*\[(RBP + (RDX << 0x2:2)) + 0x4:64, el\]*}
+    {movq %rax, %ss:0x4(%rbp,%rdx,8)} {*\[(RBP + (RDX << 0x3:2)) + 0x4:64, el\]*}
+    {movq %rdi, %ss:(,%rax)} {*\[RAX, el\]*}
+    {movq %rdi, %ss:(,%rax,2)} {*\[RAX << 0x1:2, el\]*}
+    {movq %rdi, %ss:(,%rax,4)} {*\[RAX << 0x2:2, el\]*}
+    {movq %rdi, %ss:(,%rax,8)} {*\[RAX << 0x3:2, el\]*}
+    {movq %rdi, %ss:0x4(,%rax)} {*\[RAX + 0x4:64, el\]*}
+    {movq %rdi, %ss:0x4(,%rax,2)} {*\[(RAX << 0x1:2) + 0x4:64, el\]*}
+    {movq %rdi, %ss:0x4(,%rax,4)} {*\[(RAX << 0x2:2) + 0x4:64, el\]*}
+    {movq %rdi, %ss:0x4(,%rax,8)} {*\[(RAX << 0x3:2) + 0x4:64, el\]*}
+    {movq %rdi, %ss:(%rip)} {*\[0x8:64, el\]*}
+    {movq %rdi, %ss:0x4(%rip)} {*\[0x8:64 + 0x4:64, el\]*}
 }
 
 proc run {arch suite} {
     set encode "llvm-mc -arch=$arch --show-encoding"
     set extract  "awk -vFS=\"\[\" -vRS=\"\]\" '\{print \$2\}'"
-    set mc "bap-mc --arch=$arch --show-insn=asm --show-bil=pretty"
+    set mc "bap-mc --arch=$arch --show-insn=asm --x86-lifter=modern --show-bil=pretty"
     foreach {asm bil} $suite {
         set test "x86.addressing.$arch.\[$asm\]"
         set command "echo '$asm' | $encode | $extract | $mc"
@@ -35,7 +161,10 @@ proc run {arch suite} {
         expect {
             $asm exp_continue
             $bil { pass $test }
-            default {fail $test}
+            default {
+                puts $command
+                fail $test
+            }
         }
     }
 }
