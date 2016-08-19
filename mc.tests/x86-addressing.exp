@@ -1,5 +1,5 @@
 
-set suite_amd64 {
+set suite(x86-64) {
     {movabsq %rax, 0x4} {*\[0xA:64 + 0x4:64, el\]*}
     {movq %rax, (%rbp)} {*\[RBP, el\]*}
     {movq %rax, (%rbp,%rdx)} {*\[RBP + RDX, el\]*}
@@ -149,7 +149,7 @@ set suite_amd64 {
     {movq %rdi, %ss:0x4(%rip)} {*\[0x8:64 + 0x4:64, el\]*}
 }
 
-set suite_ia32 {
+set suite(x86) {
     {movl %eax, 0x4} {*\[0x5:32 + 0x4:32, el\]*}
     {movl %eax, (%ebp)} {*\[EBP, el\]*}
     {movl %eax, (%ebp,%edx)} {*\[EBP + EDX, el\]*}
@@ -294,8 +294,7 @@ proc run {arch suite} {
         set command "echo '$asm' | $encode | $extract | $mc"
         spawn sh -c $command
         expect {
-            $asm exp_continue
-            $bil { pass $test }
+            "$asm$bil" { pass $test }
             default {
                 puts $command
                 fail $test
@@ -304,6 +303,7 @@ proc run {arch suite} {
     }
 }
 
-run x86 $suite_ia32
-run x86-64 $suite_amd64
+foreach arch  [array names suite] {
+    run $arch $suite($arch)
+}
 
