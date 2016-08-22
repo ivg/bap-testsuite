@@ -44,6 +44,25 @@ set suite(x86-64) {
     {} {movabsl 0x4, %eax} {RAX := pad:64\[mem64\[0x4:64, el\]:u32\]}
     {} {movabsq 0x4, %rax} {RAX := mem64\[0x4:64, el\]:u64}
 
+    {} {movabsb %al, 0x4} {mem64 := mem64 with \[0x4:64, el\]:u8 <- low:8\[RAX\]}
+
+    {} {movabsw %ax, 0x4} {mem64 := mem64 with \[0x4:64, el\]:u16 <- low:16\[RAX\]}
+    {} {movabsl %eax, 0x4} {mem64 := mem64 with \[0x4:64, el\]:u32 <- low:32\[RAX\]}
+    {} {movabsq %rax, 0x4} {mem64 := mem64 with \[0x4:64, el\]:u64 <- RAX}
+
+    {} {movb $0x4, %al} {RAX := (high:56\[RAX\]).0x4:8}
+    {} {movb $0x4, %ah} {RAX := (high:48\[RAX\]).(0x4:8.(low:8\[RAX\]))}
+
+    {} {movw $0x4, %ax} {RAX := (high:48\[RAX\]).0x4:16}
+    {} {movl $0x4, %eax} {RAX := pad:64\[0x4:32\]}
+    {} {movabsq $0x4, %rax} {RAX := 0x4:64}
+
+    {} {movb $0x4, (%rax)} {mem64 := mem64 with \[RAX, el\]:u8 <- 0x4:8}
+
+    {} {movw $0x4, (%rax)} {mem64 := mem64 with \[RAX, el\]:u16 <- 0x4:16}
+    {} {movl $0x4, (%rax)} {mem64 := mem64 with \[RAX, el\]:u32 <- 0x4:32}
+    {} {movq $0x4, (%rax)} {mem64 := mem64 with \[RAX, el\]:u64 <- 0x4:64}
+
 }
 
 set suite(x86) {
@@ -84,6 +103,21 @@ set suite(x86) {
     {} {movw 0x4, %ax} {EAX := (high:16\[EAX\]).(mem32\[0x4:32, el\]:u16)}
     {} {movl 0x4, %eax} {EAX := mem32\[0x4:32, el\]:u32}
     
+    {} {movb %al, 0x4} {mem32 := mem32 with \[0x4:32, el\]:u8 <- low:8\[EAX\]}
+
+    {} {movw %ax, 0x4} {mem32 := mem32 with \[0x4:32, el\]:u16 <- low:16\[EAX\]}
+    {} {movl %eax, 0x4} {mem32 := mem32 with \[0x4:32, el\]:u32 <- EAX}
+
+    {} {movb $0x4, %al} {EAX := (high:24\[EAX\]).0x4:8}
+    {} {movb $0x4, %ah} {EAX := (high:16\[EAX\]).(0x4:8.(low:8\[EAX\]))}
+
+    {} {movw $0x4, %ax} {EAX := (high:16\[EAX\]).0x4:16}
+    {} {movl $0x4, %eax} {EAX := 0x4:32}
+
+    {} {movb $0x4, (%eax)} {mem32 := mem32 with \[EAX, el\]:u8 <- 0x4:8}
+
+    {} {movw $0x4, (%eax)} {mem32 := mem32 with \[EAX, el\]:u16 <- 0x4:16}
+    {} {movl $0x4, (%eax)} {mem32 := mem32 with \[EAX, el\]:u32 <- 0x4:32}
 
 }
 
