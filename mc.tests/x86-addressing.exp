@@ -1,6 +1,6 @@
 
 set suite(x86-64) {
-    {movabsq %rax, 0x4} {*\[0xA:64 + 0x4:64, el\]*}
+    {movabsq %rax, 0x4} {*\[0x4:64, el\]*}
     {movq %rax, (%rbp)} {*\[RBP, el\]*}
     {movq %rax, (%rbp,%rdx)} {*\[RBP + RDX, el\]*}
     {movq %rax, (%rbp,%rdx,2)} {*\[RBP + (RDX << 0x1:2), el\]*}
@@ -150,7 +150,7 @@ set suite(x86-64) {
 }
 
 set suite(x86) {
-    {movl %eax, 0x4} {*\[0x5:32 + 0x4:32, el\]*}
+    {movl %eax, 0x4} {*\[0x4:32, el\]*}
     {movl %eax, (%ebp)} {*\[EBP, el\]*}
     {movl %eax, (%ebp,%edx)} {*\[EBP + EDX, el\]*}
     {movl %eax, (%ebp,%edx,2)} {*\[EBP + (EDX << 0x1:2), el\]*}
