@@ -28,15 +28,15 @@ set suite(x86-64) {
     {0x48,0x8b,0xd8} {movq %rax, %rbx} {RBX := RAX}
     {} {movq (%rbx), %rax} {RAX := mem64\[RBX, el\]:u64}
 
-    {} {movw %fs, %ax}  {xfail}
-    {} {movl %fs, %eax} {xfail}
-    {} {movq %fs, %rax} {xfail}
-    {} {movw %fs, (%rax)} {xfail}
+    {} {movw %fs, %ax}  {RAX := (high:48\[RAX\]).FS}
+    {} {movl %fs, %eax} {RAX := pad:64\[FS\]}
+    {} {movq %fs, %rax} {RAX := pad:64\[FS\]}
+    {} {movw %fs, (%rax)} {mem64 := mem64 with \[RAX, el\]:u16 <- FS}
 
-    {} {movw %ax, %fs} {xfail}
-    {} {movl %eax, %fs} {xfail}
-    {} {movq %rax, %fs} {xfail}
-    {} {movw (%rax), %fs} {xfail}
+    {} {movw %ax, %fs} {FS := low:16\[RAX\]}
+    {} {movl %eax, %fs} {FS := low:16\[RAX\]}
+    {} {movq %rax, %fs} {FS := low:16\[RAX\]}
+    {} {movw (%rax), %fs} {FS := mem64\[RAX, el\]:u16}
 
     {} {movabsb 0x4, %al} {RAX := (high:56\[RAX\]).(mem64\[0x4:64, el\]:u8)}
 
@@ -90,13 +90,13 @@ set suite(x86) {
     {0x8b,0xd8} {movl %eax, %ebx} {EBX := EAX}
     {} {movl (%ebx), %eax} {EAX := mem32\[EBX, el\]:u32}
 
-    {} {movw %fs, %ax} {xfail}
-    {} {movl %fs, %eax} {xfail}
-    {} {movl %fs, (%eax)} {xfail}
+    {} {movw %fs, %ax} {EAX := (high:16\[EAX\]).FS}
+    {} {movl %fs, %eax} {EAX := pad:32\[FS\]}
+    {} {movl %fs, (%eax)} {mem32 := mem32 with \[EAX, el\]:u16 <- FS}
 
-    {} {movw %ax, %fs}  {xfail}
-    {} {movl %eax, %fs} {xfail}
-    {} {movl (%rax), %fs}  {xfail}
+    {} {movw %ax, %fs}  {FS := low:16\[EAX\]}
+    {} {movl %eax, %fs} {FS := low:16\[EAX\]}
+    {} {movl (%eax), %fs}  {FS := mem32\[EAX, el\]:u16}
 
     {} {movb 0x4, %al} {EAX := (high:24\[EAX\]).(mem32\[0x4:32, el\]:u8)}
 
@@ -138,13 +138,8 @@ proc run {arch suite} {
         expect {
             "$asm*$bil" { pass $test }
             default {
-                if {$bil eq "xfail"} {
-                    xfail $test
-                } else {
-                    puts $command
-                    fail $test
-
-                }
+                puts $command
+                fail $test
             }
         }
     }
